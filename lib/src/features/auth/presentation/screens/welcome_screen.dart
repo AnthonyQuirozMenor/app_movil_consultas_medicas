@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfirstlove/src/common_widgets/app_logo.dart';
 import 'package:myfirstlove/src/common_widgets/primary_button.dart';
+import 'package:myfirstlove/src/constants/app_colors.dart';
 import 'package:myfirstlove/src/constants/app_text_styles.dart';
 import 'package:myfirstlove/src/routing/app_router.dart';
 

@@ -1,0 +1,49 @@
+name: Flutter Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.2'
+          channel: stable
+
+      - name: Verificar Flutter
+        run: flutter --version
+
+      - name: Obtener dependencias
+        run: flutter pub get
+
+      - name: Ejecutar pruebas
+        run: flutter test
+
+      - name: Generar iconos
+        run: flutter pub run flutter_launcher_icons
+
+      - name: Generar APK Release
+        run: flutter build apk --release
+
+      - name: Crear Release de GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
